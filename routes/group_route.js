@@ -2,7 +2,7 @@ import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
 
-const route = express();
+const route = express.Router();
 
 // to get all the volunteers group
 route.get("/api/groups", (req, res) => {

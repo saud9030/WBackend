@@ -2,7 +2,7 @@ import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
 
-const route = express();
+const route = express.Router();
 
 // to get all users ** need to give users to permission to view all other users
 route.get("/api/users", (req, res) => {
