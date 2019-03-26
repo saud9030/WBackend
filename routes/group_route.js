@@ -5,7 +5,7 @@ import bodyParser from "body-parser";
 const route = express();
 
 // to get all the volunteers group
-route.get("/api/group", (req, res) => {
+route.get("/api/groups", (req, res) => {
   models.Group.findAll()
     .then(group => {
       res.status(200).json({ group: group });
@@ -19,7 +19,7 @@ route.get("/api/group/:id", (req, res) => {
     .then(group => {
       res.status(200).json({ group });
     })
-    .catch((e = console.log(e)));
+    .catch(e => console.log(e));
 });
 
 //to create new volunteer group ** need to authenticate and check for any duplicates.
