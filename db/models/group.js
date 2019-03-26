@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
       as: "members",
       foreignKey: "group_id"
     });
-    Group.hasMany(models.volunteeringevent, {
+    Group.hasMany(models.Volunteeringevent, {
       foreignKey: "group_id",
       as: "events"
     });
