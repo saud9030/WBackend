@@ -14,6 +14,9 @@ module.exports = {
       city: {
         type: Sequelize.STRING
       },
+      leader: {
+        type: Sequelize.STRING
+      },
       founded: {
         type: Sequelize.DATEONLY
       },
