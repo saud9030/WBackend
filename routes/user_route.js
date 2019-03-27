@@ -1,6 +1,7 @@
 import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
+import passport from "passport";
 
 const router = express.Router();
 
@@ -48,16 +49,15 @@ router.get(
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
     // to check if the user is signed in
-    
-      models.User.findByPk(req.params.id)
-        .then(user => {
-          //make sure what kind of data am I showing
-          res.status(200).json({ user })
-        })
-        .catch(e => console.log(e));
 
-      // redirect to the login page
-    }
+    models.User.findByPk(req.params.id)
+      .then(user => {
+        //make sure what kind of data am I showing
+        res.status(200).json({ user });
+      })
+      .catch(e => console.log(e));
+
+    // redirect to the login page
   }
 );
 

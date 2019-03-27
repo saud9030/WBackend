@@ -1,16 +1,17 @@
-import express from "express";
+import models from "./db/models";
 import group from "./routes/group_route";
 import user from "./routes/user_route";
 import bodyParser from "body-parser";
 import passport from "passport";
 import strategy from "./lib/passportStrategy";
+import express from "express";
 
 const app = express();
 
 const port = process.env.PORT || 4000;
 
 //to define our strategy
-app.use(strategy);
+passport.use(strategy);
 
 //** middleware **/
 app.use(passport.initialize());

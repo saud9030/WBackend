@@ -1,6 +1,7 @@
 import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
+import passport from "passport";
 
 const router = express.Router();
 
@@ -23,13 +24,17 @@ router.get("/api/group/:id", (req, res) => {
 });
 
 //to create new volunteer group ** need to authenticate and check for any duplicates.
-router.post("/api/group", (req, res) => {
-  models.Group.create(req.body)
-    .then(group => {
-      res.status(200).json({ group });
-    })
-    .catch(e => console.log(e));
-});
+router.post(
+  "/api/group",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    models.Group.create(req.body)
+      .then(group => {
+        res.status(200).json({ group });
+      })
+      .catch(e => console.log(e));
+  }
+);
 
 //to update group info, or it's members ** need authorization to specific member
 router.put("/api/group/:id", (req, res) => {
