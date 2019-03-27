@@ -2,10 +2,10 @@ import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
 
-const route = express.Router();
+const router = express.Router();
 
 // to get all the volunteers group
-route.get("/api/groups", (req, res) => {
+router.get("/api/groups", (req, res) => {
   models.Group.findAll()
     .then(group => {
       res.status(200).json({ group: group });
@@ -14,7 +14,7 @@ route.get("/api/groups", (req, res) => {
 });
 
 //to get the information of a specific voulnteer group **need to add authentication
-route.get("/api/group/:id", (req, res) => {
+router.get("/api/group/:id", (req, res) => {
   models.Group.findByPk(req.params.id)
     .then(group => {
       res.status(200).json({ group });
@@ -23,7 +23,7 @@ route.get("/api/group/:id", (req, res) => {
 });
 
 //to create new volunteer group ** need to authenticate and check for any duplicates.
-route.post("/api/group", (req, res) => {
+router.post("/api/group", (req, res) => {
   models.Group.create(req.body)
     .then(group => {
       res.status(200).json({ group });
@@ -32,7 +32,7 @@ route.post("/api/group", (req, res) => {
 });
 
 //to update group info, or it's members ** need authorization to specific member
-route.put("/api/group/:id", (req, res) => {
+router.put("/api/group/:id", (req, res) => {
   models.Group.findByPk(req.params.id)
     .then(group => {
       group
@@ -53,4 +53,4 @@ route.put("/api/group/:id", (req, res) => {
     .catch(e => console.log(e));
 });
 
-export default route;
+export default router;

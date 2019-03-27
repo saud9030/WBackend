@@ -2,7 +2,7 @@ import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
 
-const route = express.Router();
+const router = express.Router();
 
 //login route
 router.post("/api/login", (req, res) => {
@@ -34,7 +34,7 @@ router.post("/api/login", (req, res) => {
 });
 
 // to get all users ** need to give users to permission to view all other users
-route.get("/api/users", (req, res) => {
+router.get("/api/users", (req, res) => {
   models.User.findAll()
     .then(user => {
       res.status(200).json({ user });
@@ -43,7 +43,7 @@ route.get("/api/users", (req, res) => {
 });
 
 //to get the information of a specific user **need to add authentication/ permission only to other users.
-route.get(
+router.get(
   "/api/user/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
@@ -62,7 +62,7 @@ route.get(
 );
 
 //to create new user account  ** check for any duplicates.
-route.post("/api/user", (req, res) => {
+router.post("/api/user", (req, res) => {
   models.User.create(req.body)
     .then(user => {
       res.status(200).json({ name: user.name });
@@ -71,7 +71,7 @@ route.post("/api/user", (req, res) => {
 });
 
 //to update user info ** need authorization to user themselves
-route.patch("/api/user/:id", (req, res) => {
+router.patch("/api/user/:id", (req, res) => {
   models.User.findByPk(req.params.id)
     .then(user => {
       user
@@ -89,4 +89,4 @@ route.patch("/api/user/:id", (req, res) => {
     .catch(e => console.log(e));
 });
 
-export default route;
+export default router;
