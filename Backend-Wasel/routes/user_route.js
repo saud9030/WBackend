@@ -14,12 +14,14 @@ router.post("/api/login", (req, res) => {
       .then(user => {
         if (user !== null) {
           if (user.password === req.body.password) {
-            //payload will store the id.
             const payload = {
               id: user.id
             };
-            jwt.sign(payload);
-            res.status(200).json({ msg: "good job" });
+            const token = jwt.sign(payload, jwtOptions.secretOrKey, {
+              expiresIn: 6000
+            });
+
+            res.status(200).json({ success: true, token: token });
           } else {
             res.status(400).json({ error: "invalid email or password" });
           }
@@ -41,19 +43,29 @@ route.get("/api/users", (req, res) => {
 });
 
 //to get the information of a specific user **need to add authentication/ permission only to other users.
-route.get("/api/user/:id", (req, res) => {
-  models.User.findByPk(req.params.id)
-    .then(user => {
-      res.status(200).json({ user });
-    })
-    .catch(e => console.log(e));
-});
+route.get(
+  "/api/user/:id",
+  passport.authenticate("jwt", { session: false }),
+  (req, res) => {
+    // to check if the user is signed in
+    
+      models.User.findByPk(req.params.id)
+        .then(user => {
+          //make sure what kind of data am I showing
+          res.status(200).json({ user })
+        })
+        .catch(e => console.log(e));
+
+      // redirect to the login page
+    }
+  }
+);
 
 //to create new user account  ** check for any duplicates.
 route.post("/api/user", (req, res) => {
   models.User.create(req.body)
     .then(user => {
-      res.status(200).json({ user });
+      res.status(200).json({ name: user.name });
     })
     .catch(e => console.log(e));
 });
