@@ -7,16 +7,16 @@ const route = express.Router();
 //login route
 router.post("/api/login", (req, res) => {
   if (req.body.email && req.body.password) {
+    // find the user in the database
     models.User.findOne({
       where: { email: req.body.email }
     })
       .then(user => {
         if (user !== null) {
           if (user.password === req.body.password) {
-            //store selected information in a var that will be send back
+            //payload will store the id.
             const payload = {
-              name: user.name
-              // more information to be send
+              id: user.id
             };
             jwt.sign(payload);
             res.status(200).json({ msg: "good job" });

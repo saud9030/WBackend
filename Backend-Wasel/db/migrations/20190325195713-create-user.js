@@ -39,12 +39,28 @@ module.exports = {
       },
       age: {
         allowNull: false,
-        type: Sequelize.INTEGER,
+        type: Sequelize.DATEONLY
+        // validate: {
+        //   // to limit the user's age between 18 and 80
+        //   allowedAge(age) {
+        //     if (age < 18 || age > 80) {
+        //       throw new error(`you're probably too young to sign up`);
+        //     }
+        //   }
+        // }
+      },
+      number: {
+        type: Sequelize.DOUBLE,
+        allowNull: true,
         validate: {
-          // to limit the user's age between 18 and 80
-          allowedAge(age) {
-            if (age < 18 || age > 80) {
-              throw new error(`you're probably too young to sign up`);
+          isNumeric: {
+            args: true,
+            msg: "Only numbers are acceptable"
+          },
+          // to ensure that the user will add 10 digits whenever they decide to add a number.
+          givenNumber(num) {
+            if (num === null && num.length !== 10) {
+              throw new error(`your contact number should have 10 digits`);
             }
           }
         }
