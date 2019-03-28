@@ -20,20 +20,30 @@ app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 
 const port = process.env.PORT || 4000;
 
-//to define our strategy
-passport.use(strategy);
+// register passport authentication middleware
+app.use(strategy);
 
-//** middleware **/
-app.use(passport.initialize());
+// add `bodyParser` middleware which will parse JSON requests into
+// JS objects before they reach the route files.
 app.use(bodyParser.json());
+
 // Parse Cookie header and populate req.cookies
 app.use(cookieParser());
+
+// this parses requests sent by `fetch`, which use a different content type
+app.use(bodyParser.urlencoded({ extended: true }));
+// route files
 app.use(group);
 app.use(user);
 
-// checking that is working
-app.get("/", (req, res) => {
-  res.send("hello world");
+// register error handling middleware
+// note that this comes after the route middlewares, because it needs to be
+// passed any error messages from them
+app.use(errorHandler);
+
+// run API on designated port (4741 in this case)
+app.listen(port, () => {
+  console.log("listening on port " + port);
 });
 
 app.listen(port, () => console.log(`Litenin on port ${port}`));
