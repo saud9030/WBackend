@@ -7,7 +7,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 
-const jwtOptions = {
+export const jwtOptions = {
   jwtFromRequest: req => req.cookies.jwt,
   secretOrKey: process.env.PASS_KEY
 };

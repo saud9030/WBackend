@@ -7,6 +7,7 @@ import group from "./routes/group_route";
 import user from "./routes/user_route";
 import bodyParser from "body-parser";
 import passport from "passport";
+import errorHandler from "./lib/error_handler"; //  error handling middleware
 import strategy from "./lib/passportStrategy";
 import express from "express";
 import cors from "cors";
@@ -46,4 +47,4 @@ app.listen(port, () => {
   console.log("listening on port " + port);
 });
 
-app.listen(port, () => console.log(`Litenin on port ${port}`));
+// app.listen(port, () => console.log(`Litenin on port ${port}`));
