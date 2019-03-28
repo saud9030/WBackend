@@ -23,19 +23,7 @@ module.exports = {
       },
       number: {
         type: Sequelize.DOUBLE,
-        allowNull: true,
-        validate: {
-          isNumeric: {
-            args: true,
-            msg: "Only numbers are acceptable"
-          },
-          // to ensure that the user will add 10 digits whenever they decide to add a number.
-          givenNumber(num) {
-            if (num === null && num.length !== 10) {
-              throw new error(`your contact number should have 10 digits`);
-            }
-          }
-        }
+        allowNull: true
       },
       gender: {
         allowNull: false,
