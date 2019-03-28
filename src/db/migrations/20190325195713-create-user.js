@@ -10,44 +10,16 @@ module.exports = {
       },
       name: {
         type: Sequelize.STRING,
-        allowNull: false,
-        isUnique: {
-          args: true,
-          msg: "name is already taken"
-        },
-        validate: {
-          len: {
-            args: [3, 20],
-            msg: "your name should be between 3 and 20 letters"
-          }
-        }
+        allowNull: false
       },
       email: {
         type: Sequelize.STRING,
-        allowNull: false,
-        validate: {
-          isEmail: true
-        },
-        isUnique: {
-          args: true,
-          msg: "email is already taken"
-        }
+        allowNull: false
       },
       password: {
         allowNull: false,
+        field: "hashed_password",
         type: Sequelize.STRING
-      },
-      age: {
-        allowNull: false,
-        type: Sequelize.DATEONLY
-        // validate: {
-        //   // to limit the user's age between 18 and 80
-        //   allowedAge(age) {
-        //     if (age < 18 || age > 80) {
-        //       throw new error(`you're probably too young to sign up`);
-        //     }
-        //   }
-        // }
       },
       number: {
         type: Sequelize.DOUBLE,

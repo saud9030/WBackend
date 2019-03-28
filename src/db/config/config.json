@@ -4,7 +4,10 @@
     "password": null,
     "database": "Wasel",
     "host": "127.0.0.1",
-    "dialect": "postgres"
+    "dialect": "postgres",
+    "define": {
+      "underscored": true
+    }
   },
   "test": {
     "username": "root",
