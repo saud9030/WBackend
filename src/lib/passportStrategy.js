@@ -1,29 +1,65 @@
 // Passport Package
 import passportJWT from "passport-jwt";
-// Passport Options
-import jwtOptions from "./passportOptions";
+import passportLocal from "passport-local";
+import passport from "passport";
 import models from "../db/models";
+import { jwtOptions, localOptions } from "./passportOptions";
+import { BadCredentialsError, JWTExpiredError } from "../lib/custom_errors";
 
 // JSON Web Token Strategy object we will be using.
 const JwtStrategy = passportJWT.Strategy;
+const LocalStrategy = passportLocal.Strategy; // passport.authenticate('jwt'),
 
-// The function(as: middleware) where we test to see if the requesting user
-// has a valid JWT token or not. And to see if it has expired.
-const strategy = new JwtStrategy(jwtOptions, (jwt_payload, next) => {
-  //   console.log("\n payload received!");
-  //   console.log(`\n user id: ${jwt_payload.id} `);
-  //   console.log(`\n token expires on: : ${jwt_payload.expires} `);
+const localStrategy = new LocalStrategy(
+  localOptions,
+  (email, password, next) => {
+    User.findOne({ where: { email } })
+      .then(user => {
+        if (user !== null) {
+          if (user.validPassword(password)) {
+            return next(null, user);
+          } else {
+            throw new BadCredentialsError();
+          }
+        } else {
+          throw new BadCredentialsError();
+        }
+      })
+      .catch(e => next(e));
+  }
+);
 
-  models.User.findOne({ where: { id: jwt_payload.id } })
-    // this is for better preformance, rather than having the database working a query, we will just send the id
-    .then(user => {
-      if (user !== null) {
-        next(null, user);
-      } else {
-        next(null, false);
-      }
-    })
-    .catch(e => console.log(e));
+// This module lets you authenticate endpoints using a JSON web token.
+// It is intended to be used to secure RESTful endpoints without sessions.
+const jwtStrategy = new JwtStrategy(jwtOptions, (jwtPayload, next) => {
+  console.log(jwtPayload.expires);
+  if (Date.now() > jwtPayload.expires) {
+    throw new JWTExpiredError();
+  } else {
+    User.findOne({ where: { id: jwtPayload.id } })
+      .then(user => {
+        if (user !== null) {
+          next(null, user);
+        } else {
+          next(null, false);
+        }
+      })
+      .catch(e => next(e));
+  }
 });
 
-export default strategy;
+// serialize and deserialize functions are used by passport under
+// the hood to determine what `req.user` should be inside routes
+passport.serializeUser((user, done) => {
+  done(null, user);
+});
+
+passport.deserializeUser((user, done) => {
+  done(null, user);
+});
+
+// register this strategy with passport
+passport.use(jwtStrategy);
+passport.use(localStrategy);
+// create a passport middleware based on all the above configuration
+export default passport.initialize();
