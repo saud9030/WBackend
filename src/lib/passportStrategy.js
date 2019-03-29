@@ -2,9 +2,10 @@
 import passportJWT from "passport-jwt";
 import passportLocal from "passport-local";
 import passport from "passport";
-import models from "../db/models";
+import models from "./../db/models";
 import { jwtOptions, localOptions } from "./passportOptions";
 import { BadCredentialsError, JWTExpiredError } from "../lib/custom_errors";
+const User = models.User;
 
 // JSON Web Token Strategy object we will be using.
 const JwtStrategy = passportJWT.Strategy;
