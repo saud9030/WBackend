@@ -1,11 +1,11 @@
 import express from "express";
-import models from "../db/models";
-import bodyParser from "body-parser";
+// import bodyParser from "body-parser";
 import passport from "passport";
 import jwt from "jsonwebtoken";
 
 // pull in error types and the logic to handle them and set status codes
 import { BadParamsError } from "../lib/custom_errors";
+import models from "../db/models";
 
 const tokenAuth = passport.authenticate("jwt", { session: false });
 const localAuth = passport.authenticate("local", { session: false });
@@ -28,8 +28,13 @@ router.post("/sign-up", (req, res, next) => {
         throw new BadParamsError();
       } else {
         return User.create({
+          name: credentials.name,
           email: credentials.email,
-          hashedPassword: credentials.password
+          password: credentials.password,
+          number: credentials.number,
+          gender: credentials.gender,
+          occupation: credentials.occupation,
+          bio: credentials.bio
         });
       }
     })

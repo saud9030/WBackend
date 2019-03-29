@@ -1,7 +1,6 @@
 // loads environment variables from a .env file into process.env
 import dotenv from "dotenv";
 dotenv.config();
-
 import models from "./db/models";
 import group from "./routes/group_route";
 import user from "./routes/user_route";
