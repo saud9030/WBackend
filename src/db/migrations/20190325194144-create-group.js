@@ -1,7 +1,7 @@
 "use strict";
 module.exports = {
   up: (queryInterface, Sequelize) => {
-    return queryInterface.createTable("Groups", {
+    return queryInterface.createTable("groups", {
       id: {
         allowNull: false,
         autoIncrement: true,
@@ -28,7 +28,7 @@ module.exports = {
         type: Sequelize.TEXT,
         allowNull: false
       },
-      contactNumber: {
+      contact_number: {
         type: Sequelize.DOUBLE,
         allowNull: true,
         validate: {
@@ -44,7 +44,7 @@ module.exports = {
           }
         }
       },
-      Email: {
+      email: {
         type: Sequelize.STRING,
         allowNull: false,
         isEmail: true
@@ -53,17 +53,17 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false
       },
-      createdAt: {
+      created_at: {
         allowNull: false,
         type: Sequelize.DATE
       },
-      updatedAt: {
+      updated_at: {
         allowNull: false,
         type: Sequelize.DATE
       }
     });
   },
   down: (queryInterface, Sequelize) => {
-    return queryInterface.dropTable("Groups");
+    return queryInterface.dropTable("groups");
   }
 };

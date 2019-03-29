@@ -8,11 +8,11 @@ module.exports = (sequelize, DataTypes) => {
       leader: DataTypes.STRING,
       founded: DataTypes.DATEONLY,
       description: DataTypes.TEXT,
-      contactNumber: DataTypes.DOUBLE,
-      Email: DataTypes.STRING,
+      contact_number: DataTypes.DOUBLE,
+      email: DataTypes.STRING,
       type: DataTypes.STRING
     },
-    {}
+    { tableName: "groups" }
   );
   Group.associate = function(models) {
     Group.belongsToMany(models.User, {
