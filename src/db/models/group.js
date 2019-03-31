@@ -16,14 +16,14 @@ module.exports = (sequelize, DataTypes) => {
   );
   Group.associate = function(models) {
     Group.belongsToMany(models.User, {
-      through: "GroupUser",
+      through: "group_users",
       as: "members",
-      foreignKey: "group_id"
+      foreignKey: "user_id"
     });
-    Group.hasMany(models.Volunteeringevent, {
-      foreignKey: "group_id",
-      as: "events"
-    });
+    // Group.hasMany(models.Volunteeringevent, {
+    //   foreignKey: "group_id",
+    //   as: "events"
+    // });
   };
   return Group;
 };

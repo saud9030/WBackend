@@ -84,16 +84,23 @@ module.exports = (sequelize, DataTypes) => {
     this.save();
   };
   User.associate = function(models) {
+    // const Member = sequelize.define(
+    //   "Member",
+    //   {
+    //     number: DataTypes.INTEGER
+    //   },
+    //   { tableName: "group_users" }
+    // );
     User.belongsToMany(models.Group, {
-      through: "GroupUser",
+      through: "group_users",
       as: "groups",
-      foreignKey: "user_id"
+      foreignKey: "group_id"
     });
-    User.belongsToMany(models.Volunteeringevent, {
-      through: "memberevent",
-      as: "events",
-      foreignKey: "user_id"
-    });
+    // User.belongsToMany(models.Volunteeringevent, {
+    //   through: "memberevent",
+    //   as: "events",
+    //   foreignKey: "user_id"
+    // });
   };
   return User;
 };
