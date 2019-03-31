@@ -89,7 +89,7 @@ router.post("/sign-in", localAuth, (req, res, next) => {
       res
         .cookie("jwt", token, { httpOnly: true, secure: false })
         .status(200)
-        .json({ id: req.user.id, email: req.user.email });
+        .json({ id: req.user.id, email: req.user.email, name: req.user.name });
     });
   }
 });

@@ -5,7 +5,7 @@ module.exports = (sequelize, DataTypes) => {
     {
       name: DataTypes.STRING,
       city: DataTypes.STRING,
-      leader: DataTypes.STRING,
+      // leader: DataTypes.STRING,
       founded: DataTypes.DATEONLY,
       description: DataTypes.TEXT,
       contact_number: DataTypes.DOUBLE,
@@ -15,9 +15,7 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: "groups" }
   );
   Group.associate = function(models) {
-    Group.belongsToMany(models.User, {
-      through: "group_users",
-      as: "members",
+    Group.belongsTo(models.User, {
       foreignKey: "user_id"
     });
     // Group.hasMany(models.Volunteeringevent, {

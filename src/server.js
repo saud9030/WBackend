@@ -18,7 +18,7 @@ const app = express();
 // `CLIENT_ORIGIN` is an environment variable that will be set on Heroku
 app.use(cors({ origin: process.env.CLIENT_ORIGIN, credentials: true }));
 
-const port = process.env.PORT || 4000;
+const port = process.env.PORT;
 
 // register passport authentication middleware
 app.use(strategy);
@@ -49,10 +49,10 @@ app.use(errorHandler);
 
 app.listen(port, () => {
   console.log(`listening on port${port}`);
-  // models.sequelize
-  //   .sync({ force: true })
-  //   .then(() => console.log("sync success"))
-  //   .catch(e => console.log(e));
+  models.sequelize
+    .sync({ force: true })
+    .then(() => console.log("sync success"))
+    .catch(e => console.log(e));
 });
 
 // app.listen(port, () => console.log(`Litenin on port ${port}`));
