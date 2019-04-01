@@ -13,7 +13,9 @@ const localAuth = passport.authenticate("local", { session: false });
 
 // to get all the volunteers group
 router.get("/api/groups", (req, res) => {
-  models.Group.findAll()
+  models.Group.findAll({
+    include: [models.UserGroup]
+  })
     .then(group => {
       res.status(200).json({ group: group });
     })
