@@ -47,10 +47,13 @@ app.use(errorHandler);
 
 // });
 
-// models.sequelize
-//   .sync()
-//   .then(() => {
-//     console.log("sync success");
+// app.listen(port, () => {
+//   console.log(`listening on port${port}`);
+//   models.sequelize
+//     .sync()
+//     .then(() => console.log("sync success"))
+//     .catch(e => console.log(e));
+// });
 
 // models.Group.findOne({ where: { id: 1 } }).then(group => {
 //   models.User.findByPk(2).then(user => {
