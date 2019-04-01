@@ -50,7 +50,7 @@ app.use(errorHandler);
 // app.listen(port, () => {
 //   console.log(`listening on port${port}`);
 //   models.sequelize
-//     .sync()
+//     .sync({ force: true })
 //     .then(() => console.log("sync success"))
 //     .catch(e => console.log(e));
 // });

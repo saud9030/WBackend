@@ -22,10 +22,12 @@ router.get("/api/groups", (req, res) => {
     .catch(e => console.log(e));
 });
 //to add users and groups to the joinTabel(which is to identify who are the memebers)
-router.post("/user/:id/groups", (req, res, next) => {
+router.post("/user/:id/groups", (req, res) => {
+  console.log(req.params.id);
+  console.log(req.body.group_id);
   models.UserGroup.create({
-    group_id: req.body.group_id,
-    user_id: req.params.id
+    user_id: req.params.id,
+    group_id: req.body.group_id
   }).then(userGroup => {
     res.status(200).json({ userGroup });
   });
