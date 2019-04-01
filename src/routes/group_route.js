@@ -32,18 +32,21 @@ router.post("/user/:id/groups", (req, res, next) => {
 });
 
 // to remove a member from a group "when a member decides to leave"
-router.delete("/api/userGroups/:id", (req, res) => {
+router.delete("/user/:id/group/:id", (req, res) => {
   console.log("hello");
-  models.UserGroup.findByPk(req.params.id)
-    .then(member => {
-      member
-        .destroy()
-        .then(() => {
-          res.status(200).json({ result: "deleted" });
-        })
-        .catch(e => console.log(e));
-    })
-    .catch(e => console.log(e));
+  // models.UserGroup.findByPk(req.params.id).then(member => {
+  models.UserGroup.destroy(
+    {
+      where: {
+        user_id: req.params.id,
+        group_id: req.params.id
+      }
+    }
+    // }.then(() => {
+    //   res.status(200).json({ result: "deleted" });
+    // })
+  );
+  // });
 });
 
 // groups.findOne({ where: { id: req.body.group_id } }).then(group => {
