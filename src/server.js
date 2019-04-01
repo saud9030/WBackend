@@ -2,7 +2,7 @@
 import dotenv from "dotenv";
 dotenv.config();
 import models from "./db/models";
-import group from "./routes/group_route";
+import groupRoute from "./routes/group_route";
 import user from "./routes/user_route";
 import bodyParser from "body-parser";
 import passport from "passport";
@@ -33,7 +33,7 @@ app.use(cookieParser());
 // this parses requests sent by `fetch`, which use a different content type
 app.use(bodyParser.urlencoded({ extended: true }));
 // route files
-app.use(group);
+app.use(groupRoute);
 app.use(user);
 
 // register error handling middleware
@@ -47,12 +47,22 @@ app.use(errorHandler);
 
 // });
 
+// models.sequelize
+//   .sync()
+//   .then(() => {
+//     console.log("sync success");
+
+// models.Group.findOne({ where: { id: 1 } }).then(group => {
+//   models.User.findByPk(2).then(user => {
+//     //user.addMember(group);
+//     //console.dir(models);
+//   });
+// });
+
 app.listen(port, () => {
   console.log(`listening on port${port}`);
-  models.sequelize
-    .sync({ force: true })
-    .then(() => console.log("sync success"))
-    .catch(e => console.log(e));
 });
+// })
+// .catch(e => console.log(e));
 
 // app.listen(port, () => console.log(`Litenin on port ${port}`));

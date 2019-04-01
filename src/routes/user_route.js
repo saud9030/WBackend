@@ -122,6 +122,7 @@ router.patch("/change-password", tokenAuth, (req, res, next) => {
 
 // to get all users ** need to give users to permission to view all other users
 router.get("/api/users", (req, res) => {
+  console.log("oh no");
   models.User.findAll()
     .then(user => {
       res.status(200).json({ user });
@@ -134,6 +135,7 @@ router.get(
   "/api/user/:id",
   passport.authenticate("jwt", { session: false }),
   (req, res) => {
+    console.log("whoops");
     // to check if the user is signed in
 
     models.User.findByPk(req.params.id)
@@ -149,6 +151,7 @@ router.get(
 
 //to create new user account  ** check for any duplicates.
 router.post("/api/user", (req, res) => {
+  console.log("ahhh");
   models.User.create(req.body)
     .then(user => {
       res.status(200).json({ name: user.name });

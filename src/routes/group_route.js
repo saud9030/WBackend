@@ -2,8 +2,14 @@ import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
 import passport from "passport";
+import jwt from "jsonwebtoken";
+// import { cloneDeep } from "sequelize/types/lib/utils";
+const groups = models.Group;
+const user = models.User;
+// const userGroups = models.userGroups;
 
 const router = express.Router();
+const localAuth = passport.authenticate("local", { session: false });
 
 // to get all the volunteers group
 router.get("/api/groups", (req, res) => {
@@ -14,6 +20,43 @@ router.get("/api/groups", (req, res) => {
     .catch(e => console.log(e));
 });
 
+router.post("/user/:id/groups", (req, res, next) => {
+  console.log(req.body.group_id);
+  console.log(req.params.id);
+  models.UserGroup.create({
+    group_id: req.body.group_id,
+    user_id: req.params.id
+  }).then(userGroup => {
+    res.status(200).json({ userGroup });
+  });
+  // groups.findOne({ where: { id: req.body.group_id } }).then(group => {
+  //   user
+  //     .findOne({
+  //       where: {
+  //         id: req.params.id
+  //       }
+  //     })
+  //     .then(user => {
+  //       user
+  //         .addGroup(group, { through: { userGroup: req.body.userGroup } })
+  //         .then(sc => {
+  //           sc: sc;
+  //         });
+  //     });
+  // });
+});
+// router.post("/api/group/:id/users/:user_id", (req, res) => {
+//   console.log("hi");
+//   models.Group.findByPk(req.params.id)
+//     .then(group => {
+//       console.log(group);
+//       group.addUsers([req.params.user_id]).then(i => {
+//         console.log(i);
+//         res.status(200).json({ group });
+//       });
+//     })
+//     .catch(e => console.log(e));
+// });
 //to get the information of a specific voulnteer group **need to add authentication
 router.get("/api/group/:id", (req, res) => {
   models.Group.findByPk(req.params.id)

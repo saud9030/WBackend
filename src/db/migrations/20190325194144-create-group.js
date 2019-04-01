@@ -14,10 +14,10 @@ module.exports = {
       city: {
         type: Sequelize.STRING
       },
-      leader: {
-        type: Sequelize.STRING,
-        allowNull: false
-      },
+      // leader: {
+      //   type: Sequelize.STRING,
+      //   allowNull: false
+      // },
       founded: {
         type: Sequelize.DATEONLY,
         allowNull: false
