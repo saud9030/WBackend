@@ -21,32 +21,47 @@ router.get("/api/groups", (req, res) => {
     })
     .catch(e => console.log(e));
 });
-
+//to add users and groups to the joinTabel(which is to identify who are the memebers)
 router.post("/user/:id/groups", (req, res, next) => {
-  console.log(req.body.group_id);
-  console.log(req.params.id);
   models.UserGroup.create({
     group_id: req.body.group_id,
     user_id: req.params.id
   }).then(userGroup => {
     res.status(200).json({ userGroup });
   });
-  // groups.findOne({ where: { id: req.body.group_id } }).then(group => {
-  //   user
-  //     .findOne({
-  //       where: {
-  //         id: req.params.id
-  //       }
-  //     })
-  //     .then(user => {
-  //       user
-  //         .addGroup(group, { through: { userGroup: req.body.userGroup } })
-  //         .then(sc => {
-  //           sc: sc;
-  //         });
-  //     });
-  // });
 });
+
+// to remove a member from a group "when a member decides to leave"
+router.delete("/api/userGroups/:id", (req, res) => {
+  console.log("hello");
+  models.UserGroup.findByPk(req.params.id)
+    .then(member => {
+      member
+        .destroy()
+        .then(() => {
+          res.status(200).json({ result: "deleted" });
+        })
+        .catch(e => console.log(e));
+    })
+    .catch(e => console.log(e));
+});
+
+// groups.findOne({ where: { id: req.body.group_id } }).then(group => {
+//   user
+//     .findOne({
+//       where: {
+//         id: req.params.id
+//       }
+//     })
+//     .then(user => {
+//       user
+//         .addGroup(group, { through: { userGroup: req.body.userGroup } })
+//         .then(sc => {
+//           sc: sc;
+//         });
+//     });
+// });
+// });
 // router.post("/api/group/:id/users/:user_id", (req, res) => {
 //   console.log("hi");
 //   models.Group.findByPk(req.params.id)
