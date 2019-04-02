@@ -102,11 +102,14 @@ module.exports = (sequelize, DataTypes) => {
       through: "userGroup",
       foreignKey: "user_id"
     });
-    // User.belongsToMany(models.Volunteeringevent, {
-    //   through: "memberevent",
-    //   as: "events",
-    //   foreignKey: "user_id"
-    // });
+    User.hasMany(models.Attendee, {
+      foreignKey: "user_id"
+    });
+    User.belongsToMany(models.Vevent, {
+      as: "attendance",
+      through: "attendee",
+      foreignKey: "user_id"
+    });
   };
   return User;
 };

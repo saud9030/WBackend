@@ -20,8 +20,14 @@ module.exports = (sequelize, DataTypes) => {
     },
     { tableName: "attendees" }
   );
-  Attendees.associate = function(models) {
-    // associations can be defined here
+  Attendee.associate = function(models) {
+    Attendee.belongsTo(models.User, {
+      foreignKey: "user_id"
+    });
+
+    Attendee.belongsTo(models.Vevent, {
+      foreignKey: "vevent_id"
+    });
   };
   return Attendee;
 };
