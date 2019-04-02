@@ -75,14 +75,14 @@ router.delete("/group/:id/event/:vd", tokenAuth, (req, res) => {
     }
   });
 });
-// // to get all the events ** need to only display the event that are yet to happen
-// router.get("/api/events", (req, res) => {
-//   models.Volunteeringevent.findAll()
-//     .then(events => {
-//       res.status(200).json({ events });
-//     })
-//     .catch(e => console.log(e));
-// });
+// to get all the events ** need to only display the event that are yet to happen
+router.get("/api/events", (req, res) => {
+  models.Vevent.findAll()
+    .then(events => {
+      res.status(200).json({ events });
+    })
+    .catch(e => console.log(e));
+});
 
 // // to get the details of a specific event
 // router.get("/api/events/:id", (req, res) => {
