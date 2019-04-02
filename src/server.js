@@ -4,6 +4,7 @@ dotenv.config();
 import models from "./db/models";
 import groupRoute from "./routes/group_route";
 import user from "./routes/user_route";
+import vevent from "./routes/vevent_route";
 import bodyParser from "body-parser";
 import passport from "passport";
 import errorHandler from "./lib/error_handler"; //  error handling middleware
@@ -35,6 +36,7 @@ app.use(bodyParser.urlencoded({ extended: true }));
 // route files
 app.use(groupRoute);
 app.use(user);
+app.use(vevent);
 
 // register error handling middleware
 // note that this comes after the route middlewares, because it needs to be
@@ -50,7 +52,7 @@ app.use(errorHandler);
 // app.listen(port, () => {
 //   console.log(`listening on port${port}`);
 //   models.sequelize
-//     .sync({ force: true })
+//     .sync({})
 //     .then(() => console.log("sync success"))
 //     .catch(e => console.log(e));
 // });
