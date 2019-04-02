@@ -19,7 +19,9 @@ module.exports = (sequelize, DataTypes) => {
     { tableName: "vevents" }
   );
   Vevent.associate = function(models) {
-    // associations can be defined here
+    Vevent.belongsTo(models.Group, {
+      foreignKey: "group_id"
+    });
   };
   return Vevent;
 };

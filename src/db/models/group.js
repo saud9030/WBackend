@@ -21,6 +21,9 @@ module.exports = (sequelize, DataTypes) => {
     Group.hasMany(models.UserGroup, {
       foreignKey: "group_id"
     });
+    Group.hasMany(models.Vevent, {
+      foreignKey: "group_id"
+    });
     Group.belongsToMany(models.User, {
       as: "groupMemberships",
       through: "userGroup",
