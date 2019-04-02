@@ -6,8 +6,8 @@ const tokenAuth = passport.authenticate("jwt", { session: false });
 
 const router = express.Router();
 
+// this route to create a new event by only the owner of the group
 router.post("/group/:id/events", tokenAuth, (req, res) => {
-  console.log("current user id ", req.user.id);
   // get the group by its id and then compare its user_id to the current user
   models.Group.findByPk(req.params.id)
     .then(group => {
@@ -24,9 +24,34 @@ router.post("/group/:id/events", tokenAuth, (req, res) => {
           })
           .catch(e => console.log(e));
         // console.log("hello");
+      } else {
+        res.status(400).json({ msg: "error" });
       }
     })
     .catch(e => console.log(e, "error dude"));
+});
+
+//this route to update the info of an event
+router.patch("/group/:id/event/:vd", tokenAuth, (req, res) => {
+  models.Group.findByPk(req.params.id)
+    .then(group => {
+      if (group.user_id === req.user.id) {
+        models.Vevent.findByPk(req.params.vd).then(event => {
+          event
+            .update({
+              name: req.body.name,
+              location: req.body.location
+            })
+            .then(event => {
+              res.status(200).json({ event });
+            })
+            .catch(e => console.log(e));
+        });
+      } else {
+        res.status(400).json({ msg: "error" });
+      }
+    })
+    .catch(e => console.log(e));
 });
 
 // // to get all the events ** need to only display the event that are yet to happen
