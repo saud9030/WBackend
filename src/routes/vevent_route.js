@@ -77,7 +77,9 @@ router.delete("/group/:id/event/:vd", tokenAuth, (req, res) => {
 });
 // to get all the events ** need to only display the event that are yet to happen
 router.get("/api/events", (req, res) => {
-  models.Vevent.findAll()
+  models.Vevent.findAll({
+    include: [models.Attendee]
+  })
     .then(events => {
       res.status(200).json({ events });
     })
@@ -119,10 +121,13 @@ router.delete("/user/:id/event/:gid", (req, res) => {
     .catch(e => console.log(e));
 });
 
-// to get all the volunteers group
-router.get("/api/attendees", (req, res) => {
+// to get all the attendees in the same event
+router.get("/api/event/:id/attendees", (req, res) => {
   models.Attendee.findAll({
-    include: [models.User]
+    include: [models.User],
+    where: {
+      vevent_id: req.params.id
+    }
   })
     .then(attendees => {
       res.status(200).json({ attendees });
