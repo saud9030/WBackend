@@ -1,21 +1,32 @@
 import express from "express";
 import models from "../db/models";
 import bodyParser from "body-parser";
+import passport from "passport";
+const tokenAuth = passport.authenticate("jwt", { session: false });
 
 const router = express.Router();
 
-router.post("/group/:id/events", (req, res) => {
-  console.log("hello");
-  models.Vevent.create({
-    name: req.body.name,
-    location: req.body.location,
-    date: req.body.date,
-    group_id: req.params.id
-  })
-    .then(event => {
-      res.status(200).json({ event });
+router.post("/group/:id/events", tokenAuth, (req, res) => {
+  console.log("current user id ", req.user.id);
+  // get the group by its id and then compare its user_id to the current user
+  models.Group.findByPk(req.params.id)
+    .then(group => {
+      if (group.user_id === req.user.id) {
+        console.log("hewwwwwwwwwwllo");
+        models.Vevent.create({
+          name: req.body.name,
+          location: req.body.location,
+          date: req.body.date,
+          group_id: req.params.id
+        })
+          .then(event => {
+            res.status(200).json({ event });
+          })
+          .catch(e => console.log(e));
+        // console.log("hello");
+      }
     })
-    .catch(e => console.log(e));
+    .catch(e => console.log(e, "error dude"));
 });
 
 // // to get all the events ** need to only display the event that are yet to happen

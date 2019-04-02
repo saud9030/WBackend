@@ -36,49 +36,14 @@ router.post("/user/:id/groups", (req, res) => {
 // to remove a member from a group "when a member decides to leave"
 router.delete("/user/:id/group/:id", (req, res) => {
   console.log("hello");
-  // models.UserGroup.findByPk(req.params.id).then(member => {
-  models.UserGroup.destroy(
-    {
-      where: {
-        user_id: req.params.id,
-        group_id: req.params.id
-      }
+  models.UserGroup.destroy({
+    where: {
+      user_id: req.params.id,
+      group_id: req.params.id
     }
-    // }.then(() => {
-    //   res.status(200).json({ result: "deleted" });
-    // })
-  );
-  // });
+  });
 });
 
-// groups.findOne({ where: { id: req.body.group_id } }).then(group => {
-//   user
-//     .findOne({
-//       where: {
-//         id: req.params.id
-//       }
-//     })
-//     .then(user => {
-//       user
-//         .addGroup(group, { through: { userGroup: req.body.userGroup } })
-//         .then(sc => {
-//           sc: sc;
-//         });
-//     });
-// });
-// });
-// router.post("/api/group/:id/users/:user_id", (req, res) => {
-//   console.log("hi");
-//   models.Group.findByPk(req.params.id)
-//     .then(group => {
-//       console.log(group);
-//       group.addUsers([req.params.user_id]).then(i => {
-//         console.log(i);
-//         res.status(200).json({ group });
-//       });
-//     })
-//     .catch(e => console.log(e));
-// });
 //to get the information of a specific voulnteer group **need to add authentication
 router.get("/api/group/:id", (req, res) => {
   models.Group.findByPk(req.params.id)
