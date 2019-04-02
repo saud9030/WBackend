@@ -34,12 +34,12 @@ router.post("/user/:id/groups", (req, res) => {
 });
 
 // to remove a member from a group "when a member decides to leave"
-router.delete("/user/:id/group/:id", (req, res) => {
+router.delete("/user/:id/group/:gid", (req, res) => {
   console.log("hello");
   models.UserGroup.destroy({
     where: {
       user_id: req.params.id,
-      group_id: req.params.id
+      group_id: req.params.gid
     }
   });
 });
