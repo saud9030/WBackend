@@ -118,4 +118,15 @@ router.delete("/user/:id/event/:gid", (req, res) => {
     })
     .catch(e => console.log(e));
 });
+
+// to get all the volunteers group
+router.get("/api/attendees", (req, res) => {
+  models.Attendee.findAll({
+    include: [models.User]
+  })
+    .then(attendees => {
+      res.status(200).json({ attendees });
+    })
+    .catch(e => console.log(e));
+});
 export default router;
