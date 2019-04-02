@@ -31,7 +31,7 @@ router.post("/group/:id/events", tokenAuth, (req, res) => {
     .catch(e => console.log(e, "error dude"));
 });
 
-//this route to update the info of an event
+//this route to update the info of an event by only the owner of the group
 router.patch("/group/:id/event/:vd", tokenAuth, (req, res) => {
   models.Group.findByPk(req.params.id)
     .then(group => {
@@ -54,6 +54,27 @@ router.patch("/group/:id/event/:vd", tokenAuth, (req, res) => {
     .catch(e => console.log(e));
 });
 
+//this route to delete an event ONLY by the owner of the group
+router.delete("/group/:id/event/:vd", tokenAuth, (req, res) => {
+  models.Group.findByPk(req.params.id).then(group => {
+    if (group.user_id === req.user.id) {
+      models.Vevent.destroy({
+        where: {
+          id: req.params.vd
+        }
+      })
+        .then(event => {
+          res.status(200).json({
+            msg: `this event ${req.params.vd} has been deleted`,
+            event: event
+          });
+        })
+        .catch(e => console.log(e));
+    } else {
+      res.status(400).json({ msg: "error, probably not authorized" });
+    }
+  });
+});
 // // to get all the events ** need to only display the event that are yet to happen
 // router.get("/api/events", (req, res) => {
 //   models.Volunteeringevent.findAll()
