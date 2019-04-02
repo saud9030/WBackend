@@ -104,4 +104,18 @@ router.post("/user/:id/events", (req, res) => {
     res.status(200).json({ attendees });
   });
 });
+
+// to remove a member from a group "when a member decides to leave"
+router.delete("/user/:id/event/:gid", (req, res) => {
+  models.Attendee.destroy({
+    where: {
+      user_id: req.params.id,
+      vevent_id: req.params.gid
+    }
+  })
+    .then(Attendee => {
+      res.status(200).json({ Attendee });
+    })
+    .catch(e => console.log(e));
+});
 export default router;
