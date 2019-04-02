@@ -93,4 +93,15 @@ router.get("/api/event/:id", (req, res) => {
     .catch(e => console.log(e));
 });
 
+//to add users and events to the joinTabel(which is to identify who are the attendees)
+router.post("/user/:id/events", (req, res) => {
+  console.log(req.params.id);
+  console.log(req.body.vevent_id);
+  models.Attendee.create({
+    user_id: req.params.id,
+    vevent_id: req.body.vevent_id
+  }).then(attendees => {
+    res.status(200).json({ attendees });
+  });
+});
 export default router;
