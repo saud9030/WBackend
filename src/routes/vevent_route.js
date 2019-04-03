@@ -102,9 +102,11 @@ router.post("/user/:id/events", (req, res) => {
   models.Attendee.create({
     user_id: req.params.id,
     vevent_id: req.body.vevent_id
-  }).then(attendees => {
-    res.status(200).json({ attendees });
-  });
+  })
+    .then(attendees => {
+      res.status(200).json({ attendees });
+    })
+    .catch(e => console.log(e));
 });
 
 // to remove a member from a group "when a member decides to leave"

@@ -28,9 +28,11 @@ router.post("/user/:id/groups", (req, res) => {
   models.UserGroup.create({
     user_id: req.params.id,
     group_id: req.body.group_id
-  }).then(userGroup => {
-    res.status(200).json({ userGroup });
-  });
+  })
+    .then(userGroup => {
+      res.status(200).json({ userGroup });
+    })
+    .catch(e => console.log(e));
 });
 
 // to remove a member from a group "when a member decides to leave"
@@ -41,7 +43,11 @@ router.delete("/user/:id/group/:gid", (req, res) => {
       user_id: req.params.id,
       group_id: req.params.gid
     }
-  });
+  })
+    .then(() => {
+      res.status(200).json({ msg: "success" });
+    })
+    .catch(e => console.log(e));
 });
 
 //to get the information of a specific voulnteer group **need to add authentication
